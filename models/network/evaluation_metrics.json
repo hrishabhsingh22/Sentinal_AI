@@ -1,0 +1,67 @@
+{
+    "model": "RandomForestClassifier",
+    "feature_set_version": 2,
+    "cv_macro_f1": 0.7772066038522464,
+    "cv_folds_rf": [
+        0.6459,
+        0.6654,
+        0.7017,
+        0.9367,
+        0.9363
+    ],
+    "cv_folds_et": [
+        0.6307,
+        0.6479,
+        0.6793,
+        0.9242,
+        0.8897
+    ],
+    "accuracy": 0.893048128342246,
+    "macro_precision": 0.712914862914863,
+    "macro_recall": 0.7722222222222223,
+    "macro_f1": 0.7382336362995843,
+    "weighted_f1": 0.8701419808137701,
+    "training_records": 901,
+    "testing_records": 187,
+    "features": 23,
+    "feature_names": [
+        "dst_port",
+        "f_suricata_alerts_60s",
+        "f_suricata_high_sev_60s",
+        "f_suricata_unique_sigs",
+        "f_flow_pkts_out_60s",
+        "f_flow_syn_ratio",
+        "f_flow_count_60s",
+        "f_flow_duration",
+        "f_flow_pkts_total",
+        "f_flow_bytes_total",
+        "f_tcp_syn",
+        "f_tcp_fin",
+        "f_tcp_rst",
+        "f_session_duration",
+        "f_session_req_rate",
+        "f_bytes_per_pkt",
+        "f_rst_minus_fin",
+        "f_port_is_web",
+        "f_high_sev_ratio",
+        "f_log_session_req_count",
+        "f_log_session_unique_paths",
+        "f_log_bytes_total",
+        "f_session_err_ratio"
+    ],
+    "training_classes": [
+        "ICMP_FLOOD",
+        "SYN_SCAN",
+        "TCP_SCAN",
+        "WEB_BRUTEFORCE",
+        "WEB_SCAN"
+    ],
+    "testing_classes": [
+        "ICMP_FLOOD",
+        "SYN_SCAN",
+        "TCP_SCAN",
+        "WEB_BRUTEFORCE",
+        "WEB_SCAN"
+    ],
+    "unseen_test_classes": []
+}

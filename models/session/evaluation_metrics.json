@@ -1,0 +1,190 @@
+{
+    "metrics": {
+        "accuracy": 0.9210526315789473,
+        "macro_precision": 0.864998700271467,
+        "macro_recall": 0.8735880818509277,
+        "macro_f1": 0.8669532130353519,
+        "weighted_f1": 0.9217172610356411,
+        "training_records": 3743,
+        "testing_records": 874,
+        "feature_count": 15,
+        "class_count": 27
+    },
+    "classification_report": {
+        "CMD_INJECTION": {
+            "precision": 0.9347826086956522,
+            "recall": 0.9555555555555556,
+            "f1-score": 0.945054945054945,
+            "support": 45.0
+        },
+        "CREDENTIAL_STUFFING": {
+            "precision": 1.0,
+            "recall": 0.7142857142857143,
+            "f1-score": 0.8333333333333334,
+            "support": 7.0
+        },
+        "DIR_ENUM": {
+            "precision": 0.75,
+            "recall": 0.8571428571428571,
+            "f1-score": 0.8,
+            "support": 7.0
+        },
+        "DIR_FUZZ": {
+            "precision": 0.7142857142857143,
+            "recall": 0.7142857142857143,
+            "f1-score": 0.7142857142857143,
+            "support": 7.0
+        },
+        "HEADER_INJECTION": {
+            "precision": 0.95,
+            "recall": 0.95,
+            "f1-score": 0.95,
+            "support": 40.0
+        },
+        "HPP_ATTACK": {
+            "precision": 0.8571428571428571,
+            "recall": 0.8571428571428571,
+            "f1-score": 0.8571428571428571,
+            "support": 21.0
+        },
+        "HTTP_SMUGGLING": {
+            "precision": 0.7142857142857143,
+            "recall": 0.7142857142857143,
+            "f1-score": 0.7142857142857143,
+            "support": 7.0
+        },
+        "LFI_ATTEMPT": {
+            "precision": 0.9433962264150944,
+            "recall": 0.8928571428571429,
+            "f1-score": 0.9174311926605505,
+            "support": 56.0
+        },
+        "LFI_EVASION": {
+            "precision": 0.8983050847457628,
+            "recall": 0.9814814814814815,
+            "f1-score": 0.9380530973451328,
+            "support": 54.0
+        },
+        "NORMAL": {
+            "precision": 1.0,
+            "recall": 0.9666666666666667,
+            "f1-score": 0.9830508474576272,
+            "support": 60.0
+        },
+        "PATH_TRAVERSAL": {
+            "precision": 1.0,
+            "recall": 0.96875,
+            "f1-score": 0.9841269841269841,
+            "support": 64.0
+        },
+        "REFLECTED_XSS": {
+            "precision": 0.825,
+            "recall": 0.9428571428571428,
+            "f1-score": 0.88,
+            "support": 35.0
+        },
+        "SLOWLORIS": {
+            "precision": 0.875,
+            "recall": 0.875,
+            "f1-score": 0.875,
+            "support": 8.0
+        },
+        "SLOW_BRUTEFORCE": {
+            "precision": 0.5,
+            "recall": 0.625,
+            "f1-score": 0.5555555555555556,
+            "support": 8.0
+        },
+        "SQLI_ATTEMPT": {
+            "precision": 0.9629629629629629,
+            "recall": 0.9811320754716981,
+            "f1-score": 0.9719626168224299,
+            "support": 53.0
+        },
+        "SQLI_EVASION": {
+            "precision": 0.9166666666666666,
+            "recall": 0.8301886792452831,
+            "f1-score": 0.8712871287128713,
+            "support": 53.0
+        },
+        "SQLMAP": {
+            "precision": 0.625,
+            "recall": 0.7142857142857143,
+            "f1-score": 0.6666666666666666,
+            "support": 7.0
+        },
+        "SQLMAP_EVASION": {
+            "precision": 0.7142857142857143,
+            "recall": 0.7142857142857143,
+            "f1-score": 0.7142857142857143,
+            "support": 7.0
+        },
+        "SSRF_ATTEMPT": {
+            "precision": 0.9354838709677419,
+            "recall": 0.9354838709677419,
+            "f1-score": 0.9354838709677419,
+            "support": 62.0
+        },
+        "UA_ROTATION": {
+            "precision": 0.9830508474576272,
+            "recall": 0.9508196721311475,
+            "f1-score": 0.9666666666666667,
+            "support": 61.0
+        },
+        "UA_SPOOF": {
+            "precision": 0.9512195121951219,
+            "recall": 1.0,
+            "f1-score": 0.975,
+            "support": 39.0
+        },
+        "WEB_BRUTEFORCE": {
+            "precision": 0.625,
+            "recall": 0.8333333333333334,
+            "f1-score": 0.7142857142857143,
+            "support": 6.0
+        },
+        "WEB_CRAWL": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 9.0
+        },
+        "WEB_FINGERPRINT": {
+            "precision": 0.9,
+            "recall": 0.9,
+            "f1-score": 0.9,
+            "support": 10.0
+        },
+        "WEB_SCAN": {
+            "precision": 0.9767441860465116,
+            "recall": 0.9767441860465116,
+            "f1-score": 0.9767441860465116,
+            "support": 43.0
+        },
+        "XSS_ATTEMPT": {
+            "precision": 0.8823529411764706,
+            "recall": 0.8333333333333334,
+            "f1-score": 0.8571428571428571,
+            "support": 54.0
+        },
+        "XSS_EVASION": {
+            "precision": 0.92,
+            "recall": 0.9019607843137255,
+            "f1-score": 0.9108910891089109,
+            "support": 51.0
+        },
+        "accuracy": 0.9210526315789473,
+        "macro avg": {
+            "precision": 0.864998700271467,
+            "recall": 0.8735880818509277,
+            "f1-score": 0.8669532130353519,
+            "support": 874.0
+        },
+        "weighted avg": {
+            "precision": 0.9243763987542857,
+            "recall": 0.9210526315789473,
+            "f1-score": 0.9217172610356411,
+            "support": 874.0
+        }
+    }
+}

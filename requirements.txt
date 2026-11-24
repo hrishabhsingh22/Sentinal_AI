@@ -1,0 +1,22 @@
+
+# Data processing and machine learning
+numpy
+pandas
+scikit-learn
+joblib
+
+# Deep learning
+tensorflow
+
+# Evaluation and visualization
+matplotlib
+seaborn
+
+# Testing and configuration
+pytest
+pyyaml
+
+# API integration (used in a later stage)
+fastapi
+uvicorn[standard]
+httpx

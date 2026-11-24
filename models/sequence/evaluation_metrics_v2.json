@@ -1,0 +1,67 @@
+{
+    "model": "LSTM",
+    "architecture": "LSTM_32_LSTM_16",
+    "task": "request_level_binary_classification",
+    "features": [
+        "f_has_sqli",
+        "f_has_xss",
+        "f_has_lfi",
+        "f_has_cmd",
+        "f_has_ssrf",
+        "f_has_traversal",
+        "f_is_scanner_ua",
+        "f_query_len",
+        "f_path_depth",
+        "f_has_encoded",
+        "f_has_sql_comment"
+    ],
+    "feature_count": 11,
+    "max_sequence_length": 99,
+    "training_requests": 3743,
+    "testing_requests": 874,
+    "training_sessions": 134,
+    "testing_sessions": 33,
+    "epochs_trained": 38,
+    "validation_metrics": {
+        "accuracy": 0.8778501628664495,
+        "precision": 0.9940828402366864,
+        "recall": 0.875,
+        "f1": 0.9307479224376731,
+        "roc_auc": 0.9581048976608187,
+        "confusion_matrix": [
+            [
+                35,
+                3
+            ],
+            [
+                72,
+                504
+            ]
+        ],
+        "threshold": 0.5,
+        "evaluated_requests": 614,
+        "normal_requests": 38,
+        "attack_requests": 576
+    },
+    "test_metrics": {
+        "accuracy": 0.8821510297482837,
+        "precision": 0.9903448275862069,
+        "recall": 0.8820638820638821,
+        "f1": 0.9330734243014944,
+        "roc_auc": 0.9055896805896806,
+        "confusion_matrix": [
+            [
+                53,
+                7
+            ],
+            [
+                96,
+                718
+            ]
+        ],
+        "threshold": 0.5,
+        "evaluated_requests": 874,
+        "normal_requests": 60,
+        "attack_requests": 814
+    }
+}

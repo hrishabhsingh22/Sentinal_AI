@@ -1,0 +1,25 @@
+
+project:
+  name: Sentinel AI
+  random_seed: 42
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  train_file: normalTrafficTraining.txt
+  test_file: normalTrafficTest.txt
+
+features:
+  schema_version: "1"
+
+training:
+  batch_size: 64
+  epochs: 50
+  validation_fraction: 0.15
+  early_stopping_patience: 5
+
+evaluation:
+  normal_false_positive_target: 0.05
+
+inference:
+  mode: shadow

@@ -1,0 +1,28 @@
+{
+    "accuracy": 0.9493087557603687,
+    "precision": 0.9665551839464883,
+    "recall": 0.9780033840947546,
+    "f1": 0.9722455845248108,
+    "roc_auc": 0.9189509306260576,
+    "confusion_matrix": [
+        [
+            40,
+            20
+        ],
+        [
+            13,
+            578
+        ]
+    ],
+    "threshold": 0.5,
+    "evaluated_requests": 651,
+    "training_requests": 3743,
+    "testing_requests": 874,
+    "training_sessions": 134,
+    "testing_sessions": 33,
+    "feature_count": 11,
+    "max_sequence_length": 50,
+    "epochs_trained": 19,
+    "architecture": "LSTM_32_LSTM_16",
+    "task": "request_level_binary_classification"
+}

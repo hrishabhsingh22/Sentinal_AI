@@ -1,0 +1,76 @@
+
+# ==========================================
+# PYTHON
+# ==========================================
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ==========================================
+# ENVIRONMENT VARIABLES AND SECRETS
+# ==========================================
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.secret
+
+# ==========================================
+# FRONTEND
+# ==========================================
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+npm-debug.log*
+yarn-debug.log*
+
+# ==========================================
+# PRIVATE DATASETS
+# ==========================================
+data/raw/*
+!data/raw/.gitkeep
+
+data/processed/*
+!data/processed/.gitkeep
+
+# ==========================================
+# TRAINED MODELS
+# Keep model files in Git
+# ==========================================
+# Do not ignore models/ directory
+
+# ==========================================
+# GENERATED REPORTS
+# ==========================================
+reports/generated/
+
+# ==========================================
+# TRAFFIC SIMULATOR AND COLLECTOR
+# ==========================================
+*.log
+**/access.log
+**/parsed_events.jsonl
+**/.collector_offset.json
+**/.session_hmac.key
+
+# ==========================================
+# OPERATING SYSTEM AND EDITORS
+# ==========================================
+.DS_Store
+.vscode/
+.idea/
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+*.tmp
+*.bak
+*.swp
+# Baseline model artifacts
+models_baseline/

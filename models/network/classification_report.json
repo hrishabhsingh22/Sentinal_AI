@@ -1,0 +1,45 @@
+{
+    "ICMP_FLOOD": {
+        "precision": 0.9761904761904762,
+        "recall": 1.0,
+        "f1-score": 0.9879518072289156,
+        "support": 41.0
+    },
+    "SYN_SCAN": {
+        "precision": 0.8611111111111112,
+        "recall": 0.8611111111111112,
+        "f1-score": 0.8611111111111112,
+        "support": 72.0
+    },
+    "TCP_SCAN": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 40.0
+    },
+    "WEB_BRUTEFORCE": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 10.0
+    },
+    "WEB_SCAN": {
+        "precision": 0.7272727272727273,
+        "recall": 1.0,
+        "f1-score": 0.8421052631578947,
+        "support": 24.0
+    },
+    "accuracy": 0.893048128342246,
+    "macro avg": {
+        "precision": 0.712914862914863,
+        "recall": 0.7722222222222223,
+        "f1-score": 0.7382336362995843,
+        "support": 187.0
+    },
+    "weighted avg": {
+        "precision": 0.8528254276917377,
+        "recall": 0.893048128342246,
+        "f1-score": 0.8701419808137701,
+        "support": 187.0
+    }
+}

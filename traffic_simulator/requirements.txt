@@ -1,0 +1,7 @@
+# Traffic Simulator — Stage 1
+# Most dependencies are already in the project venv.
+# Only jinja2 and python-multipart need to be added.
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart

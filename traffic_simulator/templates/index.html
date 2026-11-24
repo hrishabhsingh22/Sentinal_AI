@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL AI — Traffic Simulator</title>
+  <style>
+    :root {
+      --bg: #070c17;
+      --surface: #0c1322;
+      --border: #1a263d;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #06b6d4;
+      --accent-dim: rgba(6,182,212,.12);
+      --green: #10b981;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: .25rem; }
+    h2 { font-size: 1rem; font-weight: 600; margin-bottom: .75rem; color: var(--accent); }
+    p.sub { font-size: .8rem; color: var(--muted); margin-bottom: 1.5rem; font-family: monospace; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+    button {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(6,182,212,.35);
+      padding: .55rem 1rem;
+      border-radius: 8px;
+      font-size: .78rem;
+      font-family: monospace;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      width: 100%;
+    }
+    button:hover { background: rgba(6,182,212,.22); border-color: var(--accent); }
+    button:active { transform: scale(.97); }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-label { font-size: .68rem; color: var(--muted); display: block; margin-top: .25rem; }
+    #response-box {
+      background: #0a0f1c;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: .75rem;
+      color: var(--muted);
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+    .status-bar {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-family: monospace; color: var(--muted);
+      margin-bottom: .75rem;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .dot.err { background: var(--red); box-shadow: 0 0 6px var(--red); }
+    .dot.load { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+    .info-box {
+      background: rgba(6,182,212,.06);
+      border: 1px solid rgba(6,182,212,.2);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      font-size: .75rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+    .info-box strong { color: var(--accent); }
+    input, textarea {
+      background: #0a0f1c;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .45rem .65rem;
+      color: var(--text);
+      font-family: monospace;
+      font-size: .78rem;
+      width: 100%;
+      margin-bottom: .5rem;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    label { font-size: .72rem; color: var(--muted); display: block; margin-bottom: .2rem; font-family: monospace; }
+    .counter { color: var(--accent); font-weight: 700; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+
+  <h1>⬡ SENTINEL AI — HTTP Traffic Simulator</h1>
+  <p class="sub">Stage 1 · Local traffic generation · Every request is logged to <code>traffic_simulator/logs/access.log</code></p>
+
+  <div class="status-bar">
+    <span class="dot" id="status-dot"></span>
+    <span id="status-text">Checking…</span>
+    <span style="margin-left:auto;" id="log-count"></span>
+  </div>
+
+  <!-- Quick-fire buttons -->
+  <div class="card">
+    <h2>▸ Generate Traffic</h2>
+    <div class="grid">
+      <div>
+        <button onclick="fire('GET', '/')">Homepage GET /</button>
+        <span class="btn-label">Standard page load</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/products')">Browse Products</button>
+        <span class="btn-label">GET /products — full catalog</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/products?category=Network+Security')">Filter Products</button>
+        <span class="btn-label">GET /products?category=Network Security</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/search?q=SQL+injection')">Search: SQL injection</button>
+        <span class="btn-label">GET /search?q=SQL injection</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/search?q=firewall+rules&limit=3')">Search: firewall rules</button>
+        <span class="btn-label">GET /search with limit</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/api/metrics')">System Metrics</button>
+        <span class="btn-label">GET /api/metrics</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/api/status/detector')">Service Status: detector</button>
+        <span class="btn-label">GET /api/status/detector</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/api/status/nonexistent')">Unknown Service (404)</button>
+        <span class="btn-label">GET /api/status/nonexistent → 404</span>
+      </div>
+      <div>
+        <button onclick="firePost('/api/data', {event:'test', severity:'low', src_ip:'192.168.1.42'})">POST JSON Data</button>
+        <span class="btn-label">POST /api/data with sample payload</span>
+      </div>
+      <div>
+        <button onclick="fireLogin('analyst', 'hunter2')">Simulated Login</button>
+        <span class="btn-label">POST /login (credentials never logged)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Burst / multi-request -->
+  <div class="card">
+    <h2>▸ Burst Traffic</h2>
+    <div class="grid">
+      <div>
+        <label>Number of requests</label>
+        <input type="number" id="burst-count" value="10" min="1" max="200" />
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="fireBurst()">🔁 Generate Burst</button>
+      </div>
+    </div>
+    <div id="burst-progress" style="font-size:.72rem;font-family:monospace;color:var(--muted);margin-top:.5rem;"></div>
+  </div>
+
+  <!-- Custom request -->
+  <div class="card">
+    <h2>▸ Custom Request</h2>
+    <div style="display:grid;grid-template-columns:120px 1fr;gap:.5rem;align-items:start;">
+      <label style="padding-top:.5rem;">Method</label>
+      <select id="custom-method" style="background:#0a0f1c;border:1px solid var(--border);border-radius:6px;padding:.45rem .65rem;color:var(--text);font-family:monospace;font-size:.78rem;">
+        <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option><option>PATCH</option>
+      </select>
+
+      <label style="padding-top:.5rem;">Path</label>
+      <input id="custom-path" value="/search?q=custom+test" />
+
+      <label style="padding-top:.5rem;">Body (JSON)</label>
+      <textarea id="custom-body" rows="3" placeholder='{"key": "value"}'></textarea>
+    </div>
+    <button onclick="fireCustom()" style="margin-top:.5rem;width:auto;padding:.5rem 1.5rem;">Send Custom Request</button>
+  </div>
+
+  <!-- Suspicious / security-test patterns -->
+  <div class="card">
+    <h2>▸ Security Test Patterns</h2>
+    <p style="font-size:.72rem;color:var(--muted);margin-bottom:.75rem;">
+      Generate requests with suspicious-looking payloads for safe local testing. No actual exploits — the server simply records these as log entries.
+    </p>
+    <div class="grid">
+      <div>
+        <button onclick="fire('GET', '/search?q=1%27+OR+%271%27%3D%271')">SQLi-style query</button>
+        <span class="btn-label">q=1' OR '1'='1</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/search?q=%3Cscript%3Ealert(1)%3C/script%3E')">XSS-style query</button>
+        <span class="btn-label">q=&lt;script&gt;alert(1)&lt;/script&gt;</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/search?q=../../etc/passwd')">Path traversal query</button>
+        <span class="btn-label">q=../../etc/passwd</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/search?q=;+cat+/etc/shadow')">Cmd injection query</button>
+        <span class="btn-label">q=; cat /etc/shadow</span>
+      </div>
+      <div>
+        <button onclick="firePost('/api/data', {'__proto__':{'admin':true}})">Prototype pollution body</button>
+        <span class="btn-label">POST with __proto__ key</span>
+      </div>
+      <div>
+        <button onclick="fire('GET', '/search?q='+encodeURIComponent('SELECT * FROM users WHERE 1=1 --'))">Full SQL statement</button>
+        <span class="btn-label">SELECT * FROM users …</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Response viewer -->
+  <div class="card">
+    <h2>▸ Response</h2>
+    <div id="response-box">Waiting for a request…</div>
+  </div>
+
+  <!-- Info -->
+  <div class="info-box">
+    <strong>ℹ How it works:</strong>
+    Every HTTP request to this server — regardless of endpoint or method — automatically produces
+    a structured JSON log entry appended to <code>traffic_simulator/logs/access.log</code>.
+    Sensitive query parameters (passwords, tokens, API keys) are automatically redacted.
+    You can also send requests from <strong>curl</strong>, <strong>httpx</strong>, <strong>Postman</strong>,
+    or any HTTP client targeting <code>http://127.0.0.1:8001</code>.
+    <br/><br/>
+    <strong>Stage 2</strong> (future) will connect this log stream to the SENTINEL AI detection pipeline.
+  </div>
+
+<script>
+const BASE = '';  // same origin
+let reqCounter = 0;
+
+async function fire(method, path) {
+  const box = document.getElementById('response-box');
+  box.textContent = `⏳ ${method} ${path} …`;
+  try {
+    const res = await fetch(path, { method });
+    const ct = res.headers.get('content-type') || '';
+    let body;
+    if (ct.includes('json')) {
+      body = JSON.stringify(await res.json(), null, 2);
+    } else {
+      const txt = await res.text();
+      body = txt.length > 800 ? txt.slice(0, 800) + '\n… (truncated HTML)' : txt;
+    }
+    reqCounter++;
+    box.textContent = `✅ ${res.status} ${method} ${path}\n\n${body}`;
+    refreshStatus();
+  } catch (e) {
+    box.textContent = `❌ ${method} ${path}\n${e}`;
+  }
+}
+
+async function firePost(path, data) {
+  const box = document.getElementById('response-box');
+  box.textContent = `⏳ POST ${path} …`;
+  try {
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const body = JSON.stringify(await res.json(), null, 2);
+    reqCounter++;
+    box.textContent = `✅ ${res.status} POST ${path}\n\n${body}`;
+    refreshStatus();
+  } catch (e) {
+    box.textContent = `❌ POST ${path}\n${e}`;
+  }
+}
+
+async function fireLogin(user, pass) {
+  const box = document.getElementById('response-box');
+  box.textContent = `⏳ POST /login …`;
+  try {
+    const form = new URLSearchParams();
+    form.append('username', user);
+    form.append('password', pass);
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: form.toString(),
+    });
+    const body = JSON.stringify(await res.json(), null, 2);
+    reqCounter++;
+    box.textContent = `✅ ${res.status} POST /login\n\n${body}`;
+    refreshStatus();
+  } catch (e) {
+    box.textContent = `❌ POST /login\n${e}`;
+  }
+}
+
+async function fireBurst() {
+  const n = parseInt(document.getElementById('burst-count').value, 10) || 10;
+  const prog = document.getElementById('burst-progress');
+  const endpoints = [
+    ['GET', '/health'],
+    ['GET', '/products'],
+    ['GET', '/products?in_stock=true'],
+    ['GET', '/search?q=anomaly+detection'],
+    ['GET', '/search?q=firewall'],
+    ['GET', '/api/metrics'],
+    ['GET', '/api/status/aggregator'],
+    ['GET', '/api/status/cache'],
+    ['GET', '/search?q=brute+force&limit=2'],
+    ['GET', '/products?category=SIEM'],
+  ];
+  for (let i = 0; i < n; i++) {
+    const [method, path] = endpoints[i % endpoints.length];
+    prog.textContent = `Sending ${i + 1}/${n}…`;
+    try { await fetch(path, { method }); } catch {}
+    reqCounter++;
+  }
+  prog.textContent = `✅ Burst complete — ${n} requests sent.`;
+  refreshStatus();
+}
+
+async function fireCustom() {
+  const method = document.getElementById('custom-method').value;
+  const path = document.getElementById('custom-path').value || '/';
+  const rawBody = document.getElementById('custom-body').value.trim();
+  const box = document.getElementById('response-box');
+
+  const opts = { method };
+  if (rawBody && method !== 'GET') {
+    opts.headers = { 'Content-Type': 'application/json' };
+    opts.body = rawBody;
+  }
+
+  box.textContent = `⏳ ${method} ${path} …`;
+  try {
+    const res = await fetch(path, opts);
+    const ct = res.headers.get('content-type') || '';
+    let body;
+    if (ct.includes('json')) {
+      body = JSON.stringify(await res.json(), null, 2);
+    } else {
+      body = await res.text();
+      if (body.length > 800) body = body.slice(0, 800) + '\n… (truncated)';
+    }
+    reqCounter++;
+    box.textContent = `✅ ${res.status} ${method} ${path}\n\n${body}`;
+    refreshStatus();
+  } catch (e) {
+    box.textContent = `❌ ${method} ${path}\n${e}`;
+  }
+}
+
+async function refreshStatus() {
+  const dot = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  const counter = document.getElementById('log-count');
+  try {
+    const res = await fetch('/health');
+    const data = await res.json();
+    dot.className = 'dot ok';
+    text.textContent = `${data.service} · v${data.version}`;
+    counter.innerHTML = `Log entries: <span class="counter">${data.log_entries}</span>`;
+  } catch {
+    dot.className = 'dot err';
+    text.textContent = 'Server unreachable';
+    counter.textContent = '';
+  }
+}
+
+// Initial status check
+refreshStatus();
+</script>
+
+</body>
+</html>
